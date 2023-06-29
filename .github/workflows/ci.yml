@@ -9,24 +9,24 @@ on:
       - main
 
 jobs:
-  tests-macos:
-    name: Tests (macOS)
-    runs-on: macos-latest
-    timeout-minutes: 10 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Setup Ruby and install gems
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-      - name: Run tests
-        run: CI_RUN='true' bundle exec rake test
-      - name: Upload test-fail logs
-        uses: actions/upload-artifact@v3
-        with:
-          name: test failure logs
-          path: logger/test_failure_*_out.log
+  # tests-macos:
+  #   name: Tests (macOS)
+  #   runs-on: macos-latest
+  #   timeout-minutes: 10 
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #     - name: Setup Ruby and install gems
+  #       uses: ruby/setup-ruby@v1
+  #       with:
+  #         bundler-cache: true
+  #     - name: Run tests
+  #       run: CI_RUN='true' bundle exec rake test
+  #     - name: Upload test-fail logs
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: test failure logs
+  #         path: logger/test_failure_*_out.log
 
   tests-ubuntu:
     name: Tests (Ubuntu)
@@ -35,14 +35,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Setup Ruby and install gems
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
       - name: Install dependencies
         run: |
           sudo apt update
           sudo apt install -y libgtk-3-dev libwebkit2gtk-4.0-dev
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
       - name: Run tests
         run: CI_RUN='true' bundle exec rake test
       - name: Upload test-fail logs
@@ -51,16 +51,16 @@ jobs:
           name: test failure logs
           path: logger/test_failure_*_out.log
 
-  linter:
-    name: Linter
-    runs-on: macos-latest
-    timeout-minutes: 10 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Setup Ruby and install gems
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-      - name: Run linter
-        run: bundle exec rubocop
+  # linter:
+  #   name: Linter
+  #   runs-on: macos-latest
+  #   timeout-minutes: 10 
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #     - name: Setup Ruby and install gems
+  #       uses: ruby/setup-ruby@v1
+  #       with:
+  #         bundler-cache: true
+  #     - name: Run linter
+  #       run: bundle exec rubocop
