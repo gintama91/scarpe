@@ -39,10 +39,10 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-      # - name: Install dependencies
-      #   run: |
-      #     sudo apt update
-      #     sudo apt install -y <your-dependencies>
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y <your-dependencies>
       - name: Run tests
         run: CI_RUN='true' bundle exec rake test
       - name: Upload test-fail logs
