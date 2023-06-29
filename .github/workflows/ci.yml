@@ -1,16 +1,16 @@
----
 name: CI
 on:
   push:
     branches:
       - main
+      - ci-ubuntu
   pull_request:
     branches:
       - main
 
 jobs:
-  tests:
-    name: Tests
+  tests-macos:
+    name: Tests (macOS)
     runs-on: macos-latest
     timeout-minutes: 10 
     steps:
@@ -22,12 +22,35 @@ jobs:
           bundler-cache: true
       - name: Run tests
         run: CI_RUN='true' bundle exec rake test
-      - name: upload test-fail logs
-        if: '!cancelled()'
+      - name: Upload test-fail logs
         uses: actions/upload-artifact@v3
         with:
           name: test failure logs
-          path: logger/test_failure*.out.log
+          path: logger/test_failure_*_out.log
+
+  tests-ubuntu:
+    name: Tests (Ubuntu)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      # - name: Install dependencies
+      #   run: |
+      #     sudo apt update
+      #     sudo apt install -y <your-dependencies>
+      - name: Run tests
+        run: CI_RUN='true' bundle exec rake test
+      - name: Upload test-fail logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: test failure logs
+          path: logger/test_failure_*_out.log
+
   linter:
     name: Linter
     runs-on: macos-latest
