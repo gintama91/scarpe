@@ -108,4 +108,51 @@ module Scarpe::Components::Calzini
 
     [outer_x, outer_y, inner_x, inner_y]
   end
+
+  def arrow_element(props)
+    left = props["left"]
+    top = props["top"]
+    width = props["width"]
+    HTML.render do |h|
+      h.div(id: html_id, style: arrow_div_style(left, top)) do
+        h.svg do
+          # Define the arrowhead marker in the <defs> section
+          h.defs do
+            h.marker(id: "head", viewBox: "0 0 10 10", markerWidth: "6", markerHeight: "6", refX: "5", refY: "5", orient: "auto-start-reverse") do
+              h.path(d: "M 0 0 L 10 5 L 0 10 z", fill: "black")
+            end
+          end
+
+          # Use the marker for the arrowhead
+          h.line(
+            # d: line_path(width),
+            x1: "10",
+            y1: "10",
+            x2: "90",
+            y2: "90",
+            fill: "none",
+            stroke: "black",
+
+            "marker-end" => "url(#head)",
+          )
+        end
+      end
+    end
+  end
+
+  def arrow_div_style(left, top)
+    {
+      position: "absolute",
+      left: "#{left}px",
+      top: "#{top}px",
+    }
+  end
+
+  def line_path(width)
+    # half_width = width / 2
+    "M 110 10
+       C 120 20, 130 20, 140 10
+       C 150 0, 160 0, 170 10
+       C 180 20, 190 20, 200 10"
+  end
 end

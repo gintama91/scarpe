@@ -14,6 +14,7 @@ require "shoes/widgets/arc"
 require "shoes/widgets/line"
 require "shoes/widgets/shape"
 require "shoes/widgets/star"
+require "shoes/widgets/arrow"
 
 require "shoes/widgets/alert"
 require "shoes/widgets/button"

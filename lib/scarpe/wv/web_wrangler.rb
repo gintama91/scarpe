@@ -224,6 +224,7 @@ module Scarpe::Webview
     # @param timeout [Float] how long to allow before raising a timeout exception
     # @param wait_for [Array<Scarpe::Promise>] promises that must complete successfully before this JS is scheduled
     def eval_js_async(code, timeout: EVAL_DEFAULT_TIMEOUT, wait_for: [])
+      puts code
       unless @is_running
         raise Scarpe::WebWranglerNotRunningError, "WebWrangler isn't running, so evaluating JS won't work!"
       end
