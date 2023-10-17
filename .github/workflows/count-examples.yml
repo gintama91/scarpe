@@ -34,6 +34,10 @@ jobs:
           legacy_examples_count=$INPUT_legacy_examples_count
           sed -i "s/ALL_EXAMPLES_COUNT=.*/ALL_EXAMPLES_COUNT=$all_examples_count/" README.md
           sed -i "s/LEGACY_EXAMPLES_COUNT=.*/LEGACY_EXAMPLES_COUNT=$legacy_examples_count/" README.md
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git commit -am "Automated report"
+          git push
         env:
           INPUT_all_examples_count: ${{ steps.count_all.outputs.all_examples_count }}
           INPUT_legacy_examples_count: ${{ steps.count_legacy.outputs.legacy_examples_count }}
