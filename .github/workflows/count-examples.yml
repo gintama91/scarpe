@@ -18,6 +18,7 @@ jobs:
           all_examples_count=$(find examples -type f | wc -l)
           echo "All Examples count: $all_examples_count"
           echo "ALL_EXAMPLES_COUNT=$all_examples_count"
+          echo "::set-output name=all_examples_count::$all_examples_count"
 
       - name: Count legacy examples
         id: count_legacy
@@ -25,3 +26,14 @@ jobs:
           legacy_examples_count=$(find examples/legacy/not_checked -type f | wc -l)
           echo "Legacy Examples count: $legacy_examples_count"
           echo "LEGACY_EXAMPLES_COUNT=$legacy_examples_count"
+          echo "::set-output name=legacy_examples_count::$legacy_examples_count"
+
+      - name: Update README
+        run: |
+          all_examples_count=$INPUT_all_examples_count
+          legacy_examples_count=$INPUT_legacy_examples_count
+          sed -i "s/ALL_EXAMPLES_COUNT=.*/ALL_EXAMPLES_COUNT=$all_examples_count/" README.md
+          sed -i "s/LEGACY_EXAMPLES_COUNT=.*/LEGACY_EXAMPLES_COUNT=$legacy_examples_count/" README.md
+        env:
+          INPUT_all_examples_count: ${{ steps.count_all.outputs.all_examples_count }}
+          INPUT_legacy_examples_count: ${{ steps.count_legacy.outputs.legacy_examples_count }}
